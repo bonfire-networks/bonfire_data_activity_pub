@@ -16,7 +16,7 @@ defmodule CommonsPub.Actors.Actor do
 
   @defaults [
     cast: [:signing_key],
-    required: [:signing_key]
+    required: []
   ]
 
   def changeset(actor \\ %Actor{}, attrs, opts \\ []) do
