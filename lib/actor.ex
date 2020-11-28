@@ -37,7 +37,7 @@ defmodule Bonfire.Data.ActivityPub.Actor.Migration do
   defp make_actor_table(exprs) do
     quote do
       require Pointers.Migration
-      Pointers.Migration.create_pointable_table(Bonfire.Data.ActivityPub.Actor) do
+      Pointers.Migration.create_mixin_table(Bonfire.Data.ActivityPub.Actor) do
         Ecto.Migration.add :signing_key, :text
         unquote_splicing(exprs)
       end
@@ -49,7 +49,7 @@ defmodule Bonfire.Data.ActivityPub.Actor.Migration do
 
   # drop_actor_table/0
 
-  def drop_actor_table(), do: drop_pointable_table(Actor)
+  def drop_actor_table(), do: drop_mixin_table(Actor)
 
   # migrate_actor/{0,1}
 
