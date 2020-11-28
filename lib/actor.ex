@@ -1,13 +1,13 @@
-defmodule CommonsPub.Actors.Actor do
+defmodule Bonfire.Data.ActivityPub.Actor do
   @moduledoc """
   
   """
 
   use Pointers.Mixin,
-    otp_app: :cpub_actors,
-    source: "cpub_actors_actor"
+    otp_app: :bonfire_data_activity_pub,
+    source: "bonfire_data_activity_pub_actor"
 
-  alias CommonsPub.Actors.Actor
+  alias Bonfire.Data.ActivityPub.Actor
   alias Pointers.Changesets
 
   mixin_schema do
@@ -24,24 +24,47 @@ defmodule CommonsPub.Actors.Actor do
   end
 
 end
-defmodule CommonsPub.Actors.Actor.Migration do
+defmodule Bonfire.Data.ActivityPub.Actor.Migration do
 
   import Ecto.Migration
   import Pointers.Migration
-  alias CommonsPub.Actors.Actor
+  alias Bonfire.Data.ActivityPub.Actor
 
-  # @actor_table Actor.__schema__(:source)
+  @actor_table Actor.__schema__(:source)
 
-  def migrate_actor(dir \\ direction())
+  # create_actor_table/{0,1}
 
-  def migrate_actor(:up) do
-    create_mixin_table(Actor) do
-      add :signing_key, :text
+  defp make_actor_table(exprs) do
+    quote do
+      require Pointers.Migration
+      Pointers.Migration.create_pointable_table(Bonfire.Data.ActivityPub.Actor) do
+        Ecto.Migration.add :signing_key, :text
+        unquote_splicing(exprs)
+      end
     end
   end
 
-  def migrate_actor(:down) do
-    drop_mixin_table(Actor)
+  defmacro create_actor_table(), do: make_actor_table([])
+  defmacro create_actor_table([do: {_, _, body}]), do: make_actor_table(body)
+
+  # drop_actor_table/0
+
+  def drop_actor_table(), do: drop_pointable_table(Actor)
+
+  # migrate_actor/{0,1}
+
+  defp ma(:up), do: make_actor_table([])
+  defp ma(:down) do
+    quote do: Bonfire.Data.ActivityPub.Actor.Migration.drop_actor_table()
   end
+
+  defmacro migrate_actor() do
+    quote do
+      if Ecto.Migration.direction() == :up,
+        do: unquote(ma(:up)),
+        else: unquote(ma(:down))
+    end
+  end
+  defmacro migrate_actor(dir), do: ma(dir)
 
 end
