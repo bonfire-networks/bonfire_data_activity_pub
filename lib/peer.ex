@@ -11,7 +11,7 @@ defmodule Bonfire.Data.ActivityPub.Peer do
   pointable_schema do
     field :ap_base_uri, :string
     field :display_hostname, :string
-    has_many :peered, Peered
+    has_many :peered, Peered, foreign_key: :peer_id
   end
 
   @defaults [
