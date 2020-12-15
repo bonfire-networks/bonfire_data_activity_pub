@@ -6,7 +6,7 @@ defmodule Bonfire.Data.ActivityPub.Peer do
     source: "bonfire_data_activity_pub_peer"
 
   alias Bonfire.Data.ActivityPub.{Peer, Peered}
-  alias Pointers.Changesets
+  alias Ecto.Changeset
 
   pointable_schema do
     field :ap_base_uri, :string
@@ -14,13 +14,13 @@ defmodule Bonfire.Data.ActivityPub.Peer do
     has_many :peered, Peered, foreign_key: :peer_id
   end
 
-  @defaults [
-    cast: [:ap_base_uri, :display_hostname],
-    required: [:ap_base_uri, :display_hostname]
-  ]
+  @cast     [:ap_base_uri, :display_hostname]
+  @required @cast
 
-  def changeset(peer \\ %Peer{}, attrs, opts \\ []) do
-    Changesets.auto(peer, attrs, opts, @defaults)
+  def changeset(peer \\ %Peer{}, params, opts \\ []) do
+    peer
+    |> Changeset.cast(params, @cast)
+    |> Changeset.validate_required(@required)
   end
 
 end

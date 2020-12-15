@@ -8,19 +8,16 @@ defmodule Bonfire.Data.ActivityPub.Actor do
     source: "bonfire_data_activity_pub_actor"
 
   alias Bonfire.Data.ActivityPub.{Actor, Peer}
-  alias Pointers.Changesets
+  alias Ecto.Changeset
 
   mixin_schema do
     field :signing_key, :string
   end
 
-  @defaults [
-    cast: [:signing_key],
-    required: []
-  ]
+  @cast [:signing_key]
 
-  def changeset(actor \\ %Actor{}, attrs, opts \\ []) do
-    Changesets.auto(actor, attrs, opts, @defaults)
+  def changeset(actor \\ %Actor{}, params) do
+    Changesets.cast(actor, params, @cast)
   end
 
 end

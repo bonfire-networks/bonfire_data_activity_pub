@@ -6,19 +6,20 @@ defmodule Bonfire.Data.ActivityPub.Peered do
     source: "bonfire_data_activity_pub_peered"
 
   alias Bonfire.Data.ActivityPub.{Peer, Peered}
-  alias Pointers.Changesets
+  alias Ecto.Changeset
 
   mixin_schema do
     belongs_to :peer, Peer
   end
 
-  @defaults [
-    cast: [:peer_id],
-    required: [:peer_id]
-  ]
+  @cast     [:peer_id]
+  @required @cast
 
-  def changeset(peered \\ %Peered{}, attrs, opts \\ []) do
-    Changesets.auto(peered, attrs, opts, @defaults)
+  def changeset(peered \\ %Peered{}, params, opts \\ []) do
+    peered
+    |> Changeset.cast(params, @cast)
+    |> Changeset.validate_required(@required)
+    |> Changeset.assoc_constraint(:peer)
   end
 
 end
