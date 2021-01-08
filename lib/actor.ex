@@ -1,6 +1,6 @@
 defmodule Bonfire.Data.ActivityPub.Actor do
   @moduledoc """
-  
+
   """
 
   use Pointers.Mixin,
@@ -17,7 +17,7 @@ defmodule Bonfire.Data.ActivityPub.Actor do
   @cast [:signing_key]
 
   def changeset(actor \\ %Actor{}, params) do
-    Changesets.cast(actor, params, @cast)
+    Changeset.cast(actor, params, @cast)
   end
 
 end
