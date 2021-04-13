@@ -15,7 +15,7 @@ defmodule Bonfire.Data.ActivityPub.Peered do
   @cast     [:peer_id]
   @required @cast
 
-  def changeset(peered \\ %Peered{}, params, opts \\ []) do
+  def changeset(peered \\ %Peered{}, params, _opts \\ []) do
     peered
     |> Changeset.cast(params, @cast)
     |> Changeset.validate_required(@required)
@@ -37,7 +37,7 @@ defmodule Bonfire.Data.ActivityPub.Peered.Migration do
     quote do
       require Pointers.Migration
       Pointers.Migration.create_mixin_table(Bonfire.Data.ActivityPub.Peered) do
-        add :peer_id, strong_pointer(Bonfire.Data.ActivityPub.Peer), null: false 
+        add :peer_id, strong_pointer(Bonfire.Data.ActivityPub.Peer), null: false
         unquote_splicing(exprs)
       end
     end

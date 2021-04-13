@@ -7,7 +7,7 @@ defmodule Bonfire.Data.ActivityPub.Actor do
     otp_app: :bonfire_data_activity_pub,
     source: "bonfire_data_activity_pub_actor"
 
-  alias Bonfire.Data.ActivityPub.{Actor, Peer}
+  alias Bonfire.Data.ActivityPub.Actor
   alias Ecto.Changeset
 
   mixin_schema do
@@ -23,11 +23,11 @@ defmodule Bonfire.Data.ActivityPub.Actor do
 end
 defmodule Bonfire.Data.ActivityPub.Actor.Migration do
 
-  import Ecto.Migration
+  # import Ecto.Migration
   import Pointers.Migration
   alias Bonfire.Data.ActivityPub.Actor
 
-  @actor_table Actor.__schema__(:source)
+  # @actor_table Actor.__schema__(:source)
 
   # create_actor_table/{0,1}
 

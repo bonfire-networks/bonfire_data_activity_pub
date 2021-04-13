@@ -17,7 +17,7 @@ defmodule Bonfire.Data.ActivityPub.Peer do
   @cast     [:ap_base_uri, :display_hostname]
   @required @cast
 
-  def changeset(peer \\ %Peer{}, params, opts \\ []) do
+  def changeset(peer \\ %Peer{}, params, _opts \\ []) do
     peer
     |> Changeset.cast(params, @cast)
     |> Changeset.validate_required(@required)
