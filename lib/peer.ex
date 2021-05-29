@@ -2,7 +2,7 @@ defmodule Bonfire.Data.ActivityPub.Peer do
 
   use Pointers.Pointable,
     otp_app: :bonfire_data_activity_pub,
-    table_id: "PEERSAREH0STSWEC0NNECTW1TH",
+    table_id: "6EERSAREH0STSWEC0NNECTW1TH",
     source: "bonfire_data_activity_pub_peer"
 
   alias Bonfire.Data.ActivityPub.{Peer, Peered}
