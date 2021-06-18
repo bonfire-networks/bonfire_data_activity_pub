@@ -10,10 +10,11 @@ defmodule Bonfire.Data.ActivityPub.Peered do
 
   mixin_schema do
     belongs_to :peer, Peer
+    field :canonical_uri, :string
   end
 
-  @cast     [:peer_id]
-  @required @cast
+  @cast     [:id, :peer_id, :canonical_uri]
+  @required [:peer_id]
 
   def changeset(peered \\ %Peered{}, params, _opts \\ []) do
     peered
@@ -38,6 +39,7 @@ defmodule Bonfire.Data.ActivityPub.Peered.Migration do
       require Pointers.Migration
       Pointers.Migration.create_mixin_table(Bonfire.Data.ActivityPub.Peered) do
         add :peer_id, strong_pointer(Bonfire.Data.ActivityPub.Peer), null: false
+        Ecto.Migration.add :canonical_uri, :text, null: true
         unquote_splicing(exprs)
       end
     end
@@ -91,19 +93,5 @@ defmodule Bonfire.Data.ActivityPub.Peered.Migration do
     end
   end
   defmacro migrate_peered(dir), do: ma(dir)
-
-  def migrate_peer(dir \\ direction())
-
-  def migrate_peer(:up) do
-    create_mixin_table(Peered) do
-      add :peer_id, strong_pointer(Peer)
-    end
-    create_if_not_exists(unique_index(@peered_table, :peer_id))
-  end
-
-  def migrate_peer(:down) do
-    drop_if_exists(unique_index(@peered_table, :peer_id))
-    drop_mixin_table(Peered)
-  end
 
 end
