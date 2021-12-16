@@ -1,6 +1,6 @@
-<!-- [hex](https://hex.pm/bonfire_data_activity_pub) [hexdocs](https://hexdocs.pm/bonfire_data_activity_pub) -->
+# Bonfire.Data.ActivityPub
 
-# bonfire\_data\_activity\_pub
+<!-- [hex](https://hex.pm/bonfire_data_activity_pub) [hexdocs](https://hexdocs.pm/bonfire_data_activity_pub) -->
 
 Actor schema.
 
