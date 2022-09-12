@@ -1,4 +1,5 @@
 Code.eval_file("mess.exs")
+
 defmodule Bonfire.Data.ActivityPub.MixProject do
   use Mix.Project
 
@@ -9,23 +10,27 @@ defmodule Bonfire.Data.ActivityPub.MixProject do
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       description: "Actor-related models for bonfire",
-      homepage_url: "https://github.com/bonfire-networks/bonfire_data_activity_pub",
-      source_url: "https://github.com/bonfire-networks/bonfire_data_activity_pub",
+      homepage_url:
+        "https://github.com/bonfire-networks/bonfire_data_activity_pub",
+      source_url:
+        "https://github.com/bonfire-networks/bonfire_data_activity_pub",
       package: [
         licenses: ["MPL 2.0"],
         links: %{
-          "Repository" => "https://github.com/bonfire-networks/bonfire_data_activity_pub",
-          "Hexdocs" => "https://hexdocs.pm/bonfire_data_activity_pub",
-        },
+          "Repository" =>
+            "https://github.com/bonfire-networks/bonfire_data_activity_pub",
+          "Hexdocs" => "https://hexdocs.pm/bonfire_data_activity_pub"
+        }
       ],
       docs: [
-        main: "readme", # The first page to display from the docs
-        extras: ["README.md"], # extra pages to include
+        # The first page to display from the docs
+        main: "readme",
+        # extra pages to include
+        extras: ["README.md"]
       ],
-      deps: Mess.deps [ {:ex_doc, ">= 0.0.0", only: :dev, runtime: false} ]
+      deps: Mess.deps([{:ex_doc, ">= 0.0.0", only: :dev, runtime: false}])
     ]
   end
 
   def application, do: [extra_applications: [:logger]]
-
 end

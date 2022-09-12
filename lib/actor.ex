@@ -11,7 +11,7 @@ defmodule Bonfire.Data.ActivityPub.Actor do
   alias Ecto.Changeset
 
   mixin_schema do
-    field :signing_key, :string
+    field(:signing_key, :string)
   end
 
   @cast [:signing_key]
@@ -19,10 +19,9 @@ defmodule Bonfire.Data.ActivityPub.Actor do
   def changeset(actor \\ %Actor{}, params) do
     Changeset.cast(actor, params, @cast)
   end
-
 end
-defmodule Bonfire.Data.ActivityPub.Actor.Migration do
 
+defmodule Bonfire.Data.ActivityPub.Actor.Migration do
   # import Ecto.Migration
   import Pointers.Migration
   alias Bonfire.Data.ActivityPub.Actor
@@ -34,15 +33,16 @@ defmodule Bonfire.Data.ActivityPub.Actor.Migration do
   defp make_actor_table(exprs) do
     quote do
       require Pointers.Migration
-      Pointers.Migration.create_mixin_table(Bonfire.Data.ActivityPub.Actor) do
-        Ecto.Migration.add :signing_key, :text
+
+      Pointers.Migration.create_mixin_table Bonfire.Data.ActivityPub.Actor do
+        Ecto.Migration.add(:signing_key, :text)
         unquote_splicing(exprs)
       end
     end
   end
 
   defmacro create_actor_table(), do: make_actor_table([])
-  defmacro create_actor_table([do: {_, _, body}]), do: make_actor_table(body)
+  defmacro create_actor_table(do: {_, _, body}), do: make_actor_table(body)
 
   # drop_actor_table/0
 
@@ -55,6 +55,7 @@ defmodule Bonfire.Data.ActivityPub.Actor.Migration do
       unquote(make_actor_table([]))
     end
   end
+
   defp ma(:down) do
     quote do
       Bonfire.Data.ActivityPub.Actor.Migration.drop_actor_table()
@@ -68,6 +69,6 @@ defmodule Bonfire.Data.ActivityPub.Actor.Migration do
         else: unquote(ma(:down))
     end
   end
-  defmacro migrate_actor(dir), do: ma(dir)
 
+  defmacro migrate_actor(dir), do: ma(dir)
 end

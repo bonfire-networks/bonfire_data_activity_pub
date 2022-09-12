@@ -1,19 +1,19 @@
 defmodule Bonfire.Data.ActivityPub.Peered do
-
-
   use Pointers.Mixin,
     otp_app: :bonfire_data_activity_pub,
     source: "bonfire_data_activity_pub_peered"
 
-  alias Bonfire.Data.ActivityPub.{Peer, Peered}
+  alias Bonfire.Data.ActivityPub.Peer
+  alias Bonfire.Data.ActivityPub.Peered
+
   alias Ecto.Changeset
 
   mixin_schema do
-    belongs_to :peer, Peer
-    field :canonical_uri, :string
+    belongs_to(:peer, Peer)
+    field(:canonical_uri, :string)
   end
 
-  @cast     [:id, :peer_id, :canonical_uri]
+  @cast [:id, :peer_id, :canonical_uri]
   @required [:peer_id]
 
   def changeset(peered \\ %Peered{}, params, _opts \\ []) do
@@ -22,13 +22,13 @@ defmodule Bonfire.Data.ActivityPub.Peered do
     |> Changeset.validate_required(@required)
     |> Changeset.assoc_constraint(:peer)
   end
-
 end
-defmodule Bonfire.Data.ActivityPub.Peered.Migration do
 
+defmodule Bonfire.Data.ActivityPub.Peered.Migration do
   import Ecto.Migration
   import Pointers.Migration
-  alias Bonfire.Data.ActivityPub.{Peer, Peered}
+  alias Bonfire.Data.ActivityPub.Peer
+  alias Bonfire.Data.ActivityPub.Peered
 
   @peered_table Peered.__schema__(:source)
 
@@ -37,16 +37,18 @@ defmodule Bonfire.Data.ActivityPub.Peered.Migration do
   defp make_peered_table(exprs) do
     quote do
       require Pointers.Migration
-      Pointers.Migration.create_mixin_table(Bonfire.Data.ActivityPub.Peered) do
-        add :peer_id, strong_pointer(Bonfire.Data.ActivityPub.Peer), null: false
-        Ecto.Migration.add :canonical_uri, :text, null: true
+
+      Pointers.Migration.create_mixin_table Bonfire.Data.ActivityPub.Peered do
+        add(:peer_id, strong_pointer(Bonfire.Data.ActivityPub.Peer), null: false)
+
+        Ecto.Migration.add(:canonical_uri, :text, null: true)
         unquote_splicing(exprs)
       end
     end
   end
 
   defmacro create_peered_table(), do: make_peered_table([])
-  defmacro create_peered_table([do: {_, _, body}]), do: make_peered_table(body)
+  defmacro create_peered_table(do: {_, _, body}), do: make_peered_table(body)
 
   # drop_peered_table/0
 
@@ -92,6 +94,6 @@ defmodule Bonfire.Data.ActivityPub.Peered.Migration do
         else: unquote(ma(:down))
     end
   end
-  defmacro migrate_peered(dir), do: ma(dir)
 
+  defmacro migrate_peered(dir), do: ma(dir)
 end
