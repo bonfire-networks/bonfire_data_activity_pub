@@ -1,0 +1,7 @@
+digraph "xref graph" {
+  "lib/actor.ex"
+  "lib/peer.ex"
+  "lib/peer.ex" -> "lib/peered.ex"
+  "lib/peered.ex" -> "lib/peer.ex"
+  "lib/peered.ex"
+}
