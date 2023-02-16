@@ -27,7 +27,6 @@ end
 defmodule Bonfire.Data.ActivityPub.Peered.Migration do
   import Ecto.Migration
   import Pointers.Migration
-  alias Bonfire.Data.ActivityPub.Peer
   alias Bonfire.Data.ActivityPub.Peered
 
   @peered_table Peered.__schema__(:source)
