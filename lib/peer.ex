@@ -26,6 +26,7 @@ defmodule Bonfire.Data.ActivityPub.Peer do
 end
 
 defmodule Bonfire.Data.ActivityPub.Peer.Migration do
+  @moduledoc false
   import Ecto.Migration
   import Pointers.Migration
   alias Bonfire.Data.ActivityPub.Peer
