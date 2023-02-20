@@ -16,7 +16,9 @@ defmodule Bonfire.Data.ActivityPub.Actor do
 
   @cast [:signing_key]
 
-  def changeset(actor \\ %Actor{}, params) do
+  def changeset(actor \\ %Actor{}, params)
+
+  def changeset(actor, params) do
     Changeset.cast(actor, params, @cast)
   end
 end
