@@ -1,4 +1,5 @@
 defmodule Bonfire.Data.ActivityPub.Peered do
+  @moduledoc "Federated actors or objects"
   use Pointers.Mixin,
     otp_app: :bonfire_data_activity_pub,
     source: "bonfire_data_activity_pub_peered"

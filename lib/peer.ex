@@ -1,4 +1,5 @@
 defmodule Bonfire.Data.ActivityPub.Peer do
+  @moduledoc "Federated instances"
   use Pointers.Pointable,
     otp_app: :bonfire_data_activity_pub,
     table_id: "6EERSAREH0STSWEC0NNECTW1TH",
