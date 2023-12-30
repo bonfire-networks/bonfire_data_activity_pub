@@ -1,6 +1,6 @@
 defmodule Bonfire.Data.ActivityPub.Peered do
   @moduledoc "Federated actors or objects"
-  use Pointers.Mixin,
+  use Needle.Mixin,
     otp_app: :bonfire_data_activity_pub,
     source: "bonfire_data_activity_pub_peered"
 
@@ -28,7 +28,7 @@ end
 defmodule Bonfire.Data.ActivityPub.Peered.Migration do
   @moduledoc false
   import Ecto.Migration
-  import Pointers.Migration
+  import Needle.Migration
   alias Bonfire.Data.ActivityPub.Peered
 
   @peered_table Peered.__schema__(:source)
@@ -37,9 +37,9 @@ defmodule Bonfire.Data.ActivityPub.Peered.Migration do
 
   defp make_peered_table(exprs) do
     quote do
-      require Pointers.Migration
+      require Needle.Migration
 
-      Pointers.Migration.create_mixin_table Bonfire.Data.ActivityPub.Peered do
+      Needle.Migration.create_mixin_table Bonfire.Data.ActivityPub.Peered do
         add(:peer_id, strong_pointer(Bonfire.Data.ActivityPub.Peer), null: false)
 
         Ecto.Migration.add(:canonical_uri, :text, null: true)

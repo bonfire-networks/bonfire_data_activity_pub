@@ -3,7 +3,7 @@ defmodule Bonfire.Data.ActivityPub.Actor do
 
   """
 
-  use Pointers.Mixin,
+  use Needle.Mixin,
     otp_app: :bonfire_data_activity_pub,
     source: "bonfire_data_activity_pub_actor"
 
@@ -25,7 +25,7 @@ end
 
 defmodule Bonfire.Data.ActivityPub.Actor.Migration do
   # import Ecto.Migration
-  import Pointers.Migration
+  import Needle.Migration
   alias Bonfire.Data.ActivityPub.Actor
 
   # @actor_table Actor.__schema__(:source)
@@ -34,9 +34,9 @@ defmodule Bonfire.Data.ActivityPub.Actor.Migration do
 
   defp make_actor_table(exprs) do
     quote do
-      require Pointers.Migration
+      require Needle.Migration
 
-      Pointers.Migration.create_mixin_table Bonfire.Data.ActivityPub.Actor do
+      Needle.Migration.create_mixin_table Bonfire.Data.ActivityPub.Actor do
         Ecto.Migration.add(:signing_key, :text)
         unquote_splicing(exprs)
       end

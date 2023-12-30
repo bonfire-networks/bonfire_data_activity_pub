@@ -1,6 +1,6 @@
 defmodule Bonfire.Data.ActivityPub.Peer do
   @moduledoc "Federated instances"
-  use Pointers.Pointable,
+  use Needle.Pointable,
     otp_app: :bonfire_data_activity_pub,
     table_id: "6EERSAREH0STSWEC0NNECTW1TH",
     source: "bonfire_data_activity_pub_peer"
@@ -29,7 +29,7 @@ end
 defmodule Bonfire.Data.ActivityPub.Peer.Migration do
   @moduledoc false
   import Ecto.Migration
-  import Pointers.Migration
+  import Needle.Migration
   alias Bonfire.Data.ActivityPub.Peer
 
   @peer_table Peer.__schema__(:source)
@@ -38,9 +38,9 @@ defmodule Bonfire.Data.ActivityPub.Peer.Migration do
 
   defp make_peer_table(exprs) do
     quote do
-      require Pointers.Migration
+      require Needle.Migration
 
-      Pointers.Migration.create_pointable_table Bonfire.Data.ActivityPub.Peer do
+      Needle.Migration.create_pointable_table Bonfire.Data.ActivityPub.Peer do
         Ecto.Migration.add(:ap_base_uri, :text, null: false)
         Ecto.Migration.add(:display_hostname, :text, null: false)
         unquote_splicing(exprs)
