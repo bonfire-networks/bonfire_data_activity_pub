@@ -11,7 +11,7 @@ defmodule Bonfire.Data.ActivityPub.Actor do
   alias Ecto.Changeset
 
   mixin_schema do
-    field(:signing_key, :string)
+    field(:signing_key, :string, redact: true)
   end
 
   @cast [:signing_key]
