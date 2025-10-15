@@ -37,10 +37,10 @@ defmodule Bonfire.Data.ActivityPub.Peered.Migration do
 
   defp make_peered_table(exprs) do
     quote do
-      require Needle.Migration
+      import Needle.Migration
 
       Needle.Migration.create_mixin_table Bonfire.Data.ActivityPub.Peered do
-        add(:peer_id, strong_pointer(Bonfire.Data.ActivityPub.Peer), null: false)
+        add_pointer(:peer_id, :strong, Bonfire.Data.ActivityPub.Peer, null: false)
 
         Ecto.Migration.add(:canonical_uri, :text, null: true)
         unquote_splicing(exprs)
