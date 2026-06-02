@@ -1,5 +1,9 @@
 defmodule Bonfire.Data.ActivityPub.Peered do
-  @moduledoc "Federated actors or objects"
+  @moduledoc """
+  Federated actors or objects.
+
+  As a mixin its `id` is the object's pointer id.
+  """
   use Needle.Mixin,
     otp_app: :bonfire_data_activity_pub,
     source: "bonfire_data_activity_pub_peered"
