@@ -33,6 +33,7 @@ defmodule Bonfire.Data.ActivityPub.Peered.Migration do
   @moduledoc false
   import Ecto.Migration
   import Needle.Migration
+  import Needle.Migration.Indexable
   alias Bonfire.Data.ActivityPub.Peered
 
   @peered_table Peered.__schema__(:source)
@@ -74,6 +75,24 @@ defmodule Bonfire.Data.ActivityPub.Peered.Migration do
 
   def drop_peered_peer_index(opts \\ []) do
     drop_if_exists(index(@peered_table, [:peer_id], opts))
+  end
+
+  # create_peered_canonical_uri_index/0
+
+  # Hash index (equality-only lookups; fixed-size entries keep it small over long URL keys and
+  # sidestep btree's key-size limit). See `Bonfire.Federate.ActivityPub.Peered.get_by_uri/1` and
+  # `list_by_canonical_uris/1`. `concurrently` is env-driven via `create_index_for_pointer`.
+  @canonical_uri_index_name :bonfire_data_activity_pub_peered_canonical_uri_hash_idx
+
+  def add_peered_canonical_uri_index do
+    create_index_for_pointer(@peered_table, [:canonical_uri],
+      using: :hash,
+      name: @canonical_uri_index_name
+    )
+  end
+
+  def drop_peered_canonical_uri_index do
+    drop_if_exists(index(@peered_table, [:canonical_uri], name: @canonical_uri_index_name))
   end
 
   # migrate_peered/{0,1}
